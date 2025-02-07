@@ -1,4 +1,6 @@
-
+// This is a sample experiment.
+  
+  
   var jsPsych = initJsPsych({
     default_iti: 250,
     on_finish: function() {
