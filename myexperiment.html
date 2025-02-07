@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jatos.js"></script>
+    <script src="jsPsych/jspsych.js"></script>
+    <script src="jsPsych/plugin-html-slider-response.js"></script>
+    <script src="jsPsych/plugin-html-button-response.js"></script>
+    <script src="stimuli.js"></script>
+    <link rel="stylesheet" href="jsPsych/jspsych.css">
+    <style>
+      img {
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+
+  var jsPsych = initJsPsych({
+// on_finish: function(){
+//   jsPsych.data.displayData();
+// },
+on_finish: function() {
+  subject_id = jatos.workerId;
+  result_id = jatos.studyResultId;
+  // demo_data = jsPsych.data.get().filter({trial_type: 'survey-html-form'}).values()[0].response;
+  jsPsych.data.addProperties({
+    subject_id: subject_id,
+    result_id: result_id,
+    // test_date: demo_data.test_date,
+    // child_DOB: demo_data.DOB,
+    // child_gender: demo_data.gender,
+    // experimenter_name: demo_data.experimenter_name
+  });
+jatos.endStudy(jsPsych.data.get().json())
+}});
+
+    var timeline = [];
+
+    var instructions = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: 'Do you want to do this experiment?',
+      choices: ['Yes','No'],
+    };
+
+    timeline.push(instructions);
+
+        var judgement_trial = {
+          type: jsPsychHtmlSliderResponse,
+          stimulus: jsPsych.timelineVariable('sentence'),
+          data: { sentence_type: jsPsych.timelineVariable('sentence_type'),
+                  expected: jsPsych.timelineVariable('expected')
+          },
+          labels: ['1','2','3', '4','5'],
+          slider_width: 200,
+          require_movement: true,
+          prompt: '<p>How good is this sentence?</p>'
+        };
+
+    var judgement_task = {
+       timeline: [judgement_trial],
+ 			 timeline_variables: stimuli,
+ 			 randomize_order: true,
+ 		 };
+
+
+   timeline.push(judgement_task);
+
+        // var trial_2 = {
+        //   type: jsPsychHtmlSliderResponse,
+        //   stimulus: '<div style="margin: 50px auto; width: 100px; height: 100px; background-color: rgb(29, 23, 138)"></div>',
+        //   labels: ['Purple', 'Blue'],
+        //   slider_start: 10,
+        //   slider_width: 500,
+        //   prompt: '<p>Is this color closer to purple or blue? Use the slider above. (5s time limit; custom starting value).</p>',
+        //   trial_duration: 5000
+        // };
+
+        // var trial_3 = {
+        //   type: jsPsychHtmlSliderResponse,
+        //   stimulus: '<div style="margin: 50px auto; width: 100px; height: 100px; background-color: rgb(63, 17, 129)"></div>',
+        //   labels: ['Purple', 'Blue'],
+        //   prompt: '<p>Is this color closer to purple or blue? Use the slider above. (1s display).</p>',
+        //   slider_width: 500,
+        //   stimulus_duration: 1000
+        // };
+
+        jsPsych.run(timeline);
+    </script>
+  </html>
