@@ -1,0 +1,9 @@
+sentence,sentence_type,expected
+The cat chased the mouse.,Trans,Good
+The dog chased the cat.,Trans,Good
+The cat meowed.,Intrans,Good
+The dog barked.,Intrans,Good
+Cat chased mouse.,Trans,Bad
+Dog chased cat.,Trans,Bad
+Cat meowed.,Intrans,Bad
+Dog barked.,Intrans,Bad
